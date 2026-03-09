@@ -6,7 +6,7 @@ class CreateDatabase:
         self.connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="root1234"
+            password=""
         )
         self.cursor = self.connection.cursor()
 
@@ -60,4 +60,5 @@ class CreateDatabase:
         if self.cursor:
             self.cursor.close()
         if self.connection and self.connection.is_connected():
+
             self.connection.close()
