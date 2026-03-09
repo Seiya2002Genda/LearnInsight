@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LearnInsight - System Administrator</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/systemadministrator.css') }}">
+
+</head>
+<body>
+    <header class="page-header">
+        <h1>System Administrator</h1>
+        <nav>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('system') }}">System</a>
+            <a href="{{ url_for('setting') }}">Setting</a>
+            <a href="{{ url_for('index') }}">Logout</a>
+        </nav>
+    </header>
+    <main class="page-content">
+        <!-- =========================
+             User Management
+        ========================== -->
+        <section class="card">
+            <h2>User Management</h2>
+            <p>
+                Create, edit, and monitor user accounts
+                and system permissions.
+            </p>
+            <button onclick="loadUserList()">
+                Load Users
+            </button>
+            <div id="userList"></div>
+        </section>
+        <!-- =========================
+             Database Control
+        ========================== -->
+        <section class="card">
+            <h2>Database Control</h2>
+            <p>
+                Monitor database health, connection status,
+                and system records.
+            </p>
+            <button onclick="checkDatabaseStatus()">
+                Check Database
+            </button>
+            <div id="databaseStatus"></div>
+        </section>
+        <!-- =========================
+             Platform Security
+        ========================== -->
+        <section class="card">
+            <h2>Platform Security</h2>
+            <p>
+                Review system logs, access records,
+                and security activity.
+            </p>
+            <button onclick="checkSecurityLogs()">
+                Check Logs
+            </button>
+            <div id="securityLogs"></div>
+        </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/systemadministrator.js') }}"></script>
+</body>
+</html>

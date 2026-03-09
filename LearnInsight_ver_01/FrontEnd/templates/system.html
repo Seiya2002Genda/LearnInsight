@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/system.css') }}">
+</head>
+<body>
+    <header class="page-header">
+        <h1>System Page</h1>
+        <nav>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('setting') }}">Setting</a>
+            <a href="{{ url_for('index') }}">Logout</a>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <div class="card">
+            <h2>System Status</h2>
+            <p>Monitor platform condition and backend communication status.</p>
+        </div>
+
+        <div class="card">
+            <h2>Learning Engine</h2>
+            <p>Manage recommendation services, reports, and learning models.</p>
+        </div>
+
+        <div class="card">
+            <h2>System Notes</h2>
+            <p>Keep track of updates, runtime behavior, and feature summaries.</p>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/system.js') }}"></script>
+</body>
+</html>

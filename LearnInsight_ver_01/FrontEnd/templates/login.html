@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Login</h1>
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="message-box">
+                  {% for message in messages %}
+                    <p>{{ message }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter username">
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter password">
+
+                <label for="role">Role</label>
+                <select name="role" id="role">
+                    <option value="">Select role</option>
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="schooladministrator">School Administrator</option>
+                    <option value="systemadministrator">System Administrator</option>
+                </select>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p class="bottom-link">
+                Don't have an account?
+                <a href="{{ url_for('signup') }}">Signup here</a>
+            </p>
+
+            <p class="bottom-link">
+                <a href="{{ url_for('index') }}">Back to Home</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

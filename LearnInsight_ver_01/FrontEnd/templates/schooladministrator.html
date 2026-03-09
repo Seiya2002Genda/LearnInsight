@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - School Administrator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/schooladministrator.css') }}">
+</head>
+<body>
+    <header class="page-header">
+        <h1>School Administrator</h1>
+        <nav>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('setting') }}">Setting</a>
+            <a href="{{ url_for('index') }}">Logout</a>
+        </nav>
+    </header>
+    <main class="page-content">
+        <!-- =========================
+             School Performance
+        ========================== -->
+        <section class="card">
+            <h2>School Performance</h2>
+            <p>
+                Analyze overall learning outcomes and educational trends
+                across the entire school.
+            </p>
+            <button onclick="loadSchoolPerformance()">
+                Load Data
+            </button>
+            <div id="schoolPerformanceData"></div>
+        </section>
+
+        <!-- =========================
+             Teacher Monitoring
+        ========================== -->
+
+        <section class="card">
+            <h2>Teacher Monitoring</h2>
+            <p>
+                Monitor teacher activity and student engagement
+                across classrooms.
+            </p>
+            <button onclick="loadTeacherMonitoring()">
+                Check Teachers
+            </button>
+            <div id="teacherMonitoringData"></div>
+        </section>
+
+        <!-- =========================
+             Administrative Reports
+        ========================== -->
+        <section class="card">
+            <h2>Administrative Reports</h2>
+            <p>
+                Generate institutional reports for academic
+                performance and learning statistics.
+            </p>
+            <button onclick="generateAdminReport()">
+                Generate Report
+            </button>
+            <div id="adminReportData"></div>
+        </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/schooladministrator.js') }}"></script>
+</body>
+</html>

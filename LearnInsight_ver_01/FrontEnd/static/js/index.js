@@ -1,0 +1,1 @@
+console.log("LearnInsight index page loaded.");

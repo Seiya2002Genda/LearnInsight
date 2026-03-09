@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - Student</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student.css') }}">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>Student Page</h1>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('setting') }}">Setting</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+</header>
+
+<main class="page-content">
+    <div class="card">
+        <h2>Class Registration</h2>
+        <form method="POST">
+            <input type="hidden" name="form_type" value="class_request">
+            <input type="text" name="class_name" placeholder="Class Name">
+            <input type="text" name="teacher_name" placeholder="Teacher Name">
+            <button class="task-btn">Request Join</button>
+        </form>
+        <ul class="class-list">
+            {% for c in class_requests %}
+                <li>
+                    <span>{{ c.class_name }} - {{ c.teacher_name }}</span>
+                    <span class="status">{{ c.status }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>My Learning Summary</h2>
+        <p>View your progress, study time, and performance results.</p>
+        <div class="summary">
+            <p><strong>Total Study Time:</strong> {{ report.total_study_time }}</p>
+            <p><strong>Average Score:</strong> {{ report.average_score }}</p>
+            <p><strong>Total Records:</strong> {{ report.record_count }}</p>
+        </div>
+        {% if graph %}
+        <div class="graph">
+            <img src="{{ graph }}">
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2>Recommended Learning Plan</h2>
+        <p>AI-based support for better study habits and academic improvement.</p>
+        <p><strong>{{ recommendation.level }}</strong></p>
+        <p>{{ recommendation.recommendation }}</p>
+    </div>
+
+    <div class="card">
+        <h2>My Study Materials</h2>
+        <form method="POST">
+            <input type="hidden" name="form_type" value="material">
+            <input type="text" name="material_title" placeholder="Material title">
+            <input type="text" name="material_subject" placeholder="Subject">
+            <input type="text" name="material_link" placeholder="Link">
+            <button class="task-btn">Add Material</button>
+        </form>
+        <ul class="material-list">
+            {% for m in materials %}
+                <li class="material-item">
+                    <span>{{ m.title }} ({{ m.subject }})</span>
+                    <a href="{{ m.link }}" target="_blank">{{ m.link }}</a>
+                    <form action="/student/delete-material/{{ m.id }}" method="POST">
+                        <button class="delete-btn">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Upcoming Tasks</h2>
+        <form method="POST">
+            <input type="hidden" name="form_type" value="task">
+            <input type="text" name="task" placeholder="Add new task">
+            <button class="task-btn">Add</button>
+        </form>
+        <ul class="task-list">
+            {% for t in tasks %}
+                <li class="task-item">
+                    <span>{{ t.task }}</span>
+                    <div class="task-actions">
+                        <form action="/student/complete-task/{{ t.id }}" method="POST">
+                            <button class="complete-btn">Complete</button>
+                        </form>
+                        <form action="/student/delete-task/{{ t.id }}" method="POST">
+                            <button class="delete-btn">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
+
+<script src="{{ url_for('static', filename='js/student.js') }}"></script>
+</body>
+</html>

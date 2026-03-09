@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - Teacher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/teacher.css') }}">
+</head>
+
+<body>
+
+<header class="page-header">
+    <h1>Teacher Page</h1>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('setting') }}">Setting</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+</header>
+
+<main class="page-content">
+
+    <div class="card">
+        <h2>Class Join Requests</h2>
+
+        <table class="request-table">
+
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Class</th>
+                    <th>Teacher</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for r in requests %}
+
+                <tr>
+
+                    <td>{{ r.username }}</td>
+
+                    <td>{{ r.class_name }}</td>
+
+                    <td>{{ r.teacher_name }}</td>
+
+                    <td>{{ r.status }}</td>
+
+                    <td>
+
+                        <form action="/teacher/approve/{{ r.id }}" method="POST">
+                            <button class="approve-btn">Approve</button>
+                        </form>
+
+                        <form action="/teacher/reject/{{ r.id }}" method="POST">
+                            <button class="reject-btn">Reject</button>
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Class Overview</h2>
+
+        <p>Monitor student progress, attendance, and learning patterns.</p>
+
+        <table class="student-table">
+
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Subject</th>
+                    <th>Study Time</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for d in data %}
+
+                <tr>
+
+                    <td>{{ d.username }}</td>
+
+                    <td>{{ d.subject }}</td>
+
+                    <td>{{ d.study_time }}</td>
+
+                    <td>{{ d.score }}</td>
+
+                    <td>{{ d.learning_date }}</td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Teaching Support</h2>
+
+        <p>Use student data to improve instruction and classroom planning.</p>
+
+    </div>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/teacher.js') }}"></script>
+
+</body>
+</html>
