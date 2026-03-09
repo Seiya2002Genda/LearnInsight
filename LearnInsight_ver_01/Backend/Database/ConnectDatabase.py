@@ -10,7 +10,7 @@ class ConnectDatabase:
         self.connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="root1234",
+            password="",
             database=self.database
         )
         return self.connection
@@ -22,4 +22,5 @@ class ConnectDatabase:
 
     def close(self):
         if self.connection and self.connection.is_connected():
+
             self.connection.close()
