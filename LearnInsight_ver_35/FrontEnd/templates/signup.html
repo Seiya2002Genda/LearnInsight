@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - Signup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Signup</h1>
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="message-box">
+                  {% for message in messages %}
+                    <p>{{ message }}</p>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <form method="POST" id="signupForm">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter username">
+
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Enter email">
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter password">
+
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password">
+
+                <label for="role">Role</label>
+                <select name="role" id="role">
+                    <option value="">Select role</option>
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="schooladministrator">School Administrator</option>
+                    <option value="systemadministrator">System Administrator</option>
+                </select>
+
+                <button type="submit">Create Account</button>
+            </form>
+
+            <p class="bottom-link">
+                Already have an account?
+                <a href="{{ url_for('login') }}">Login here</a>
+            </p>
+
+            <p class="bottom-link">
+                <a href="{{ url_for('index') }}">Back to Home</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/signup.js') }}"></script>
+</body>
+</html>

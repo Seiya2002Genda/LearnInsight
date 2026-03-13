@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LearnInsight - Teacher</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/teacher.css') }}">
+    </head>
+
+    <body>
+
+        <header class="page-header">
+            <h1>Teacher Page</h1>
+            <nav>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('setting') }}">Setting</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+        </header>
+
+        <main class="page-content">
+
+            <div class="card">
+                <h2>Class Join Requests</h2>
+
+                <table class="request-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Teacher</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for r in requests %}
+                        <tr>
+                            <td>{{ r.username }}</td>
+                            <td>{{ r.class_name }}</td>
+                            <td>{{ r.teacher_name }}</td>
+                            <td>{{ r.status }}</td>
+                            <td>
+                                <form action="{{ url_for('teacher_approve', req_id=r.id) }}" method="POST">
+                                    <button class="approve-btn">Approve</button>
+                                </form>
+                                <form action="{{ url_for('teacher_reject', req_id=r.id) }}" method="POST">
+                                    <button class="reject-btn">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>Class Overview</h2>
+                <div class="overview-grid">
+                    <div class="overview-box">
+                        <h3>Students</h3>
+                        <p id="studentCount">0</p>
+                    </div>
+                    <div class="overview-box">
+                        <h3>Average Score</h3>
+                        <p id="averageScore">0</p>
+                    </div>
+                    <div class="overview-box">
+                        <h3>Total Study Time</h3>
+                        <p id="totalStudyTime">0</p>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="studyTimeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Student Records</h2>
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Study Time</th>
+                            <th>Grade</th>
+                            <th>Register Approved Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in data %}
+                        <tr>
+                            <td class="student-name">
+                                {{ d.username }}
+                            </td>
+                            <td>
+                                {{ d.class_name }}
+                            </td>
+                            <td class="study-time">
+                                {{ d.study_time if d.study_time is not none else 0 }}
+                            </td>
+                            <td class="score">
+                                {{ d.grade }}
+                            </td>
+                            <td>
+                                {{ d.approved_date.strftime('%Y-%m-%d') if d.approved_date else '' }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card teaching-chat-panel">
+                <h2>Teaching Support Chat</h2>
+                <div class="teaching-chat-layout">
+
+                    <div class="teaching-chat-sidebar">
+                        <div class="teaching-chat-sidebar-header">
+                            <h3>Students</h3>
+                        </div>
+
+                        <div class="teacher-chat-list">
+                            {% for s in teacher_students %}
+                            <a href="{{ url_for('teacher_chat', user_id=s.user_id) }}"
+                               class="teacher-button {% if selected_student and selected_student.user_id == s.user_id %}active-teacher{% endif %}">
+                                <div class="teacher-name">
+                                    {{ s.username }}
+                                </div>
+                                <div class="teacher-class">
+                                    {{ s.class_name }}
+                                </div>
+                                {% if s.last_message %}
+                                <div class="teacher-last-message">
+                                    {{ s.last_sender }} : {{ s.last_message }}
+                                </div>
+                                {% endif %}
+                            </a>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                    <div class="teaching-chat-main">
+
+                        {% if selected_student %}
+
+                        <div class="chat-header">
+                            Chat with {{ selected_student.username }}
+                        </div>
+
+                        <div class="chat-window">
+
+                            {% for m in support_messages %}
+
+                            {% if m.sender == "teacher" %}
+                            <div class="chat-message teacher">
+                                <div class="chat-sender">
+                                    You
+                                </div>
+                                <div class="chat-bubble teacher-bubble">
+                                    {{ m.message }}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if m.sender == "student" %}
+                            <div class="chat-message student">
+                                <div class="chat-sender">
+                                    {{ selected_student.username }}
+                                </div>
+                                <div class="chat-bubble student-bubble">
+                                    {{ m.message }}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                        <form class="chat-input-area"
+                              action="{{ url_for('teacher_send_message', user_id=selected_student.user_id) }}"
+                              method="POST">
+
+                            <input type="text"
+                                   name="message"
+                                   class="chat-input"
+                                   placeholder="Send message..."
+                                   required>
+
+                            <button class="send-btn">
+                                Send
+                            </button>
+
+                        </form>
+
+                        {% else %}
+
+                        <div class="chat-placeholder">
+                            Select a student to start chatting
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Create Assignment</h2>
+                <form class="assignment-form" action="{{ url_for('add_assignment') }}" method="POST" enctype="multipart/form-data">
+                    <input type="text" name="class_name" placeholder="Class name" required>
+                    <input type="text" name="title" placeholder="Assignment title" required>
+                    <textarea name="description" placeholder="Description"></textarea>
+                    <input type="url" name="url" placeholder="Reference URL">
+                    <input type="file" name="file">
+                    <input type="date" name="due_date">
+                    <button type="submit">Create Assignment</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Created Assignment</h2>
+                <div class="assignment-list">
+                    {% for a in assignments %}
+                    <div class="assignment">
+                        <h3>{{ a.title }}</h3>
+                        <p><strong>Class:</strong> {{ a.class_name }}</p>
+                        <p>{{ a.description }}</p>
+                        {% if a.url %}
+                        <a href="{{ a.url }}" target="_blank">Reference</a>
+                        {% endif %}
+                        {% if a.file_path %}
+                        <a href="/{{ a.file_path }}" target="_blank">Download File</a>
+                        {% endif %}
+                        <p class="date">Due: {{ a.due_date }}</p>
+                        <form action="{{ url_for('delete_assignment',id=a.id) }}" method="POST">
+                            <button class="delete-btn">Delete</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Submitted Assignment</h2>
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Assignment</th>
+                            <th>Comment</th>
+                            <th>File</th>
+                            <th>Submitted</th>
+                            <th>Grade</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in submissions %}
+                        <tr>
+                            <td>{{ s.student_name }}</td>
+                            <td>{{ s.class_name }}</td>
+                            <td>{{ s.title }}</td>
+                            <td>{% if s.comment %}{{ s.comment }}{% else %}-{% endif %}</td>
+                            <td>{% if s.file_path %}<a href="/{{ s.file_path }}" target="_blank">Download</a>{% else %}No File{% endif %}</td>
+                            <td>{{ s.submitted_at }}</td>
+                            <td>{% if s.grade is not none %}{{ s.grade }}{% else %}Not graded{% endif %}</td>
+                            <td>
+                                <form action="{{ url_for('grade_submission',submission_id=s.id) }}" method="POST">
+                                    <input type="number" name="grade" min="0" max="100" step="0.1" value="{{ s.grade if s.grade is not none else '' }}" required>
+                                    <button type="submit">Save</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        <div class="card discussion-panel">
+            <h2>Discussion Panel</h2>
+            <div class="discussion-layout">
+                <div class="discussion-sidebar">
+                    <div class="discussion-sidebar-header">
+                        <h3>Topics</h3>
+                        <form method="POST"
+                              action="{{ url_for('teacher') }}"
+                              class="topic-form">
+                            <input type="hidden"
+                                   name="form_type"
+                                   value="create_topic">
+                            <input type="text"
+                                   name="topic_title"
+                                   placeholder="New topic title..."
+                                   required
+                                   autocomplete="off">
+                            <button type="submit">
+                                Create
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="topic-list">
+                        {% for topic_item in topics %}
+                        <form method="GET"
+                              action="{{ url_for('teacher_chat', user_id=selected_student.user_id) if selected_student else url_for('teacher') }}"
+                              class="topic-select-form">
+                            <input type="hidden"
+                                   name="topic_id"
+                                   value="{{ topic_item.id }}">
+                            <button type="submit"
+                                    class="topic-button
+                                    {% if selected_topic and topic_item.id == selected_topic.id %}
+                                    active-topic
+                                    {% endif %}">
+                                <span class="topic-title">
+                                    {{ topic_item.title }}
+                                </span>
+                                <span class="topic-meta">
+                                    {{ topic_item.created_by }}
+                                </span>
+                            </button>
+                        </form>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="discussion-main">
+                    {% if selected_topic %}
+                    <div class="discussion-topic-header">
+                        <div class="discussion-topic-title">
+                            Discussion Topic: {{ selected_topic.title }}
+                        </div>
+                        <div class="discussion-topic-info">
+                            Created by {{ selected_topic.created_by }}
+                        </div>
+                    </div>
+                    <div class="discussion-container"
+                         id="discussionContainer">
+                        {% for msg in messages %}
+                        <div class="message-row
+                            {% if msg.sender == user.username %}
+                            me
+                            {% else %}
+                            other
+                            {% endif %}">
+                            <div class="message-bubble
+                                {% if msg.sender == user.username %}
+                                me-bubble
+                                {% else %}
+                                other-bubble
+                                {% endif %}">
+                                <div class="message-user">
+                                    {{ msg.sender }}
+                                </div>
+                                <div class="message-text">
+                                    {{ msg.message }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <form method="POST"
+                          action="{{ url_for('teacher') }}"
+                          class="discussion-input"
+                          id="discussionForm">
+                        <input type="hidden"
+                               name="form_type"
+                               value="discussion_message">
+                        <input type="hidden"
+                               name="topic_id"
+                               value="{{ selected_topic.id }}">
+                        <input type="text"
+                               name="discussion_message"
+                               id="discussionInput"
+                               placeholder="Write a message..."
+                               required
+                               autocomplete="off">
+                        <button type="submit">
+                            Send
+                        </button>
+                    </form>
+                    {% else %}
+                    <div class="discussion-empty">
+                        <p>No topic selected.</p>
+                        <p>Please choose a topic from the left panel or create a new one.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="{{ url_for('static', filename='js/teacher.js') }}"></script>
+
+    </body>
+</html>

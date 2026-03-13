@@ -1,0 +1,174 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff7ed;
+    color: #0f172a;
+}
+
+/* ======================
+   HEADER
+====================== */
+
+.page-header {
+    background: #c2410c;
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-header h1 {
+    margin: 0;
+}
+
+.page-header nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 18px;
+    font-weight: bold;
+    transition: opacity 0.2s ease;
+}
+
+.page-header nav a:hover {
+    opacity: 0.7;
+}
+
+/* ======================
+   MAIN CONTENT
+====================== */
+
+.page-content {
+    padding: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* ======================
+   CARDS
+====================== */
+
+.card {
+    background: white;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #c2410c;
+}
+
+.card p {
+    line-height: 1.6;
+}
+
+/* ======================
+   CARD HEADER
+====================== */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* ======================
+   BUTTON
+====================== */
+
+.admin-btn {
+
+    background: #d9480f;
+    color: white;
+
+    border: none;
+
+    padding: 8px 16px;
+
+    border-radius: 6px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all .2s ease;
+
+}
+
+.admin-btn:hover {
+
+    background: #ea580c;
+
+    transform: translateY(-1px);
+
+}
+
+.admin-btn:active {
+
+    transform: scale(.95);
+
+}
+
+.admin-btn.loading {
+
+    background: #9ca3af;
+
+    cursor: not-allowed;
+
+}
+
+/* ======================
+   DATA BOX
+====================== */
+
+.data-box {
+
+    background: #f1f5f9;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    margin-top: 12px;
+
+    min-height: 90px;
+
+}
+
+/* ======================
+   TEACHER CARD
+====================== */
+
+.teacher-card {
+
+    background: white;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 10px;
+
+    border-left: 4px solid #ea580c;
+
+}
+
+/* ======================
+   GRAPH AREA
+====================== */
+
+.admin-graph {
+
+    margin-top: 15px;
+
+}

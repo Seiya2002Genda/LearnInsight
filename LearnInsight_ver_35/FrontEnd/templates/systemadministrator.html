@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - System Administrator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/systemadministrator.css') }}">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>System Administrator Dashboard</h1>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        {% if role == "student" %}
+            <a href="{{ url_for('student') }}">Student</a>
+        {% endif %}
+        {% if role == "teacher" %}
+            <a href="{{ url_for('teacher') }}">Teacher</a>
+        {% endif %}
+        {% if role == "schooladministrator" %}
+            <a href="{{ url_for('schooladministrator') }}">School Admin</a>
+        {% endif %}
+        {% if role == "systemadministrator" %}
+            <a href="{{ url_for('systemadministrator') }}">System</a>
+        {% endif %}
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+</header>
+<main class="page-content">
+    <section class="card">
+        <h2>User Management</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="user-table-body">
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <button onclick="deleteUser({{ user.id }})">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>Create User</h2>
+        <div class="form-grid">
+            <input id="new-username" placeholder="Username">
+            <input id="new-email" placeholder="Email">
+            <input id="new-password" type="password" placeholder="Password">
+            <select id="new-role">
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="schooladministrator">School Admin</option>
+                <option value="systemadministrator">System Admin</option>
+            </select>
+            <button onclick="createUser()">
+                Create User
+            </button>
+        </div>
+    </section>
+    <section class="card">
+        <h2>Database Status</h2>
+        <p id="database-status">
+            Checking database status...
+        </p>
+        <button onclick="checkDatabaseStatus()">
+            Refresh
+        </button>
+    </section>
+    <section class="card">
+        <h2>Security Logs</h2>
+        <ul id="security-logs">
+            <li>Loading logs...</li>
+        </ul>
+        <button onclick="checkSecurityLogs()">
+            Refresh Logs
+        </button>
+    </section>
+
+</main>
+<script src="{{ url_for('static', filename='js/systemadministrator.js') }}"></script>
+</body>
+</html>

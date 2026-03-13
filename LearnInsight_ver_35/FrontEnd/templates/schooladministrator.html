@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - School Administrator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/schooladministrator.css') }}">
+</head>
+<body>
+    <header class="page-header">
+        <h1>School Administrator</h1>
+        <nav>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('setting') }}">Setting</a>
+            <a href="{{ url_for('index') }}">Logout</a>
+        </nav>
+    </header>
+    <main class="page-content">
+        <!-- =========================
+             School Performance
+        ========================== -->
+        <section class="card admin-card">
+
+            <div class="card-header">
+                <h2>School Performance</h2>
+                <button onclick="loadSchoolPerformance()">
+                    Load Data
+                </button>
+            </div>
+
+            <p class="card-description">
+                Analyze overall learning outcomes and educational trends
+                across the entire school.
+            </p>
+
+            <div id="schoolPerformanceData" class="admin-data-box"></div>
+
+            <div id="schoolPerformanceGraph" class="admin-graph"></div>
+
+        </section>
+
+
+        <!-- =========================
+             Teacher Monitoring
+        ========================== -->
+        <section class="card admin-card">
+
+            <div class="card-header">
+                <h2>Teacher Monitoring</h2>
+                <button onclick="loadTeacherMonitoring()">
+                    Check Teachers
+                </button>
+            </div>
+
+            <p class="card-description">
+                Monitor teacher activity and student engagement across classrooms.
+            </p>
+
+            <div id="teacherMonitoringData" class="admin-data-box"></div>
+
+        </section>
+
+
+        <!-- =========================
+             Administrative Reports
+        ========================== -->
+        <section class="card admin-card">
+
+            <div class="card-header">
+                <h2>Administrative Reports</h2>
+                <button onclick="generateAdminReport()">
+                    Generate Report
+                </button>
+            </div>
+
+            <p class="card-description">
+                Generate institutional reports including learning performance,
+                student participation, and teacher activity.
+            </p>
+
+            <div id="adminReportData" class="admin-data-box"></div>
+
+        </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/schooladministrator.js') }}"></script>
+</body>
+</html>

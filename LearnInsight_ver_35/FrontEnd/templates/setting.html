@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnInsight - Setting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/setting.css') }}">
+</head>
+<body>
+    <header class="page-header">
+        <h1>Setting</h1>
+        <nav>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('index') }}">Logout</a>
+        </nav>
+    </header>
+
+    <main class="setting-container">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="message-box">
+              {% for message in messages %}
+                <p>{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="setting-form">
+            <label for="theme">Theme</label>
+            <select id="theme" name="theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+
+            <label for="language">Language</label>
+            <select id="language" name="language">
+                <option value="english">English</option>
+                <option value="japanese">Japanese</option>
+            </select>
+
+            <button type="submit">Save Setting</button>
+        </form>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/setting.js') }}"></script>
+</body>
+</html>

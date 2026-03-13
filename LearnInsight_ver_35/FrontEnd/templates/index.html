@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnInsight - Home</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+
+<body>
+
+<header class="navbar">
+
+<div class="logo">LearnInsight</div>
+
+<nav>
+<a href="{{ url_for('index') }}">Home</a>
+<a href="{{ url_for('login') }}">Login</a>
+</nav>
+
+</header>
+
+<main class="hero">
+
+<section class="hero-content">
+
+<h1>Welcome to LearnInsight</h1>
+
+<p>
+A smart learning platform designed to support students, teachers,
+school administrators, and system administrators.
+</p>
+
+<div class="hero-buttons">
+
+<a class="btn primary" href="{{ url_for('login') }}">Get Started</a>
+
+<a class="btn secondary" href="{{ url_for('login') }}">Create Account</a>
+
+</div>
+
+</section>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+</body>
+</html>
